@@ -1,0 +1,7 @@
+/node_modules
+/dist
+
+*.js
+
+/client/node_modules
+/client/build
