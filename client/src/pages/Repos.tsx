@@ -1,7 +1,6 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import { QueryStatus } from 'react-query';
-import { MainTemplate } from '../templates/MainTemplate';
 import { Loader } from '../components/Loader';
 import { RepoCard } from '../components/RepoCard';
 import { useRepos } from '../hooks/useRepos';
@@ -14,21 +13,29 @@ export const Repos = () => {
   const { data, status } = useRepos(user?.repos_url!);
   const { Loading, Error } = QueryStatus;
 
+  if (status === Loading) {
+    return <Loader />;
+  }
+
+  if (status === Error) {
+    return (
+      <Typography variant="body1" color="error">
+        Sorry, something went wrong when fetching repos
+      </Typography>
+    );
+  }
+
   return (
-    <MainTemplate>
-      {status === Loading && <Loader />}
+    <>
       <Typography variant="h5" align="center">
         Your repos
       </Typography>
       <div className={classes.container}>
-        {status === Error && (
-          <Typography variant="body1" color="error">
-            Sorry, something went wrong when fetching repos
-          </Typography>
-        )}
-        {data && data.map((repo) => <RepoCard repo={repo} key={repo.id} />)}
+        {data?.map((repo) => (
+          <RepoCard repo={repo} key={repo.id} />
+        ))}
       </div>
-    </MainTemplate>
+    </>
   );
 };
 
