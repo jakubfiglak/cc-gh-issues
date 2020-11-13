@@ -16,7 +16,7 @@ const githubURI =
 export const Login = () => {
   const classes = useStyles();
 
-  const { authenticate, loading, user } = useAuthState();
+  const { authenticate } = useAuthState();
 
   const history = useHistory();
   const location = useLocation();
