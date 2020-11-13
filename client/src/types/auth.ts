@@ -1,8 +1,13 @@
 export type User = {
-  login: string;
   id: string;
+  login: string;
+  name: string;
+  email: string;
+  bio: string;
   avatar_url: string;
+  location: string;
   url: string;
+  html_url: string;
   repos_url: string;
   public_repos: number;
   total_private_repos: number;

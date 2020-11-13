@@ -1,26 +1,24 @@
 import React from 'react';
-import { CssBaseline, Typography } from '@material-ui/core';
-import { NavBar } from '../components/NavBar';
+import { Typography } from '@material-ui/core';
+import { ProfileCard } from '../components/ProfileCard';
 import { useAuthState } from '../hooks/useAuthState';
-import { useRepos } from '../hooks/useRepos';
+import { MainTemplate } from '../templates/MainTemplate';
 
 export const Home = () => {
-  const { authenticate, loading, user } = useAuthState();
-
-  const { data } = useRepos(user?.repos_url!);
+  const { user } = useAuthState();
 
   return (
-    <main>
-      <CssBaseline />
-      <NavBar />
+    <MainTemplate>
       <Typography variant="h5" align="center">
-        Welcome {user?.login}
+        Welcome {user?.name}
       </Typography>
-      <Typography>{user?.avatar_url}</Typography>
-      <Typography>{user?.repos_url}</Typography>
-      {data?.map((repo) => (
-        <h5>{repo.name}</h5>
-      ))}
-    </main>
+      <ProfileCard
+        name={user?.name!}
+        login={user?.login!}
+        avatar_url={user?.avatar_url!}
+        bio={user?.bio!}
+        url={user?.html_url!}
+      />
+    </MainTemplate>
   );
 };

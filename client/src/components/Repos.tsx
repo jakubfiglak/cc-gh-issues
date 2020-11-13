@@ -1,14 +1,6 @@
 import React from 'react';
-import { useQuery } from 'react-query';
-import { axiosJson } from '../config/axios';
 import { useAuthState } from '../hooks/useAuthState';
 import { useRepos } from '../hooks/useRepos';
-import { Repo } from '../types/repos';
-
-const getRepos = async (_: string, url: string) => {
-  const res = await axiosJson.get(url);
-  return res.data;
-};
 
 export const Repos = () => {
   const { user } = useAuthState();

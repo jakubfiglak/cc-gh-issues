@@ -3,6 +3,7 @@ import { axiosJson, setAuthToken } from '../../config/axios';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
 import { State } from '../../types/auth';
+import { Loader } from '../../components/Loader';
 
 const localUser = localStorage.getItem('user');
 const localIsAuthenticated = localStorage.getItem('isAuthenticated');
@@ -71,7 +72,7 @@ export const AuthState: FC = ({ children }) => {
   const { user, token, isAuthenticated, loading, error } = state;
 
   if (loading) {
-    return <div>loading...</div>;
+    return <Loader />;
   }
 
   return (
