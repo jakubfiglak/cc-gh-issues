@@ -12,13 +12,7 @@ export const Home = () => {
       <Typography variant="h5" align="center">
         Welcome {user?.name}
       </Typography>
-      <ProfileCard
-        name={user?.name!}
-        login={user?.login!}
-        avatar_url={user?.avatar_url!}
-        bio={user?.bio!}
-        url={user?.html_url!}
-      />
+      <ProfileCard user={user!} />
     </MainTemplate>
   );
 };

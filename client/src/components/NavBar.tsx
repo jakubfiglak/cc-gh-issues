@@ -1,6 +1,15 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  createStyles,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
+import { ExitToApp as LogoutIcon } from '@material-ui/icons';
+import { AppMenu } from './AppMenu';
 import { useAuthState } from '../hooks/useAuthState';
 
 export const NavBar = () => {
@@ -11,12 +20,13 @@ export const NavBar = () => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          <AppMenu />
           <Typography variant="h6" component="h1" className={classes.title}>
             GitHub Issues Teleport
           </Typography>
-          <Button color="inherit" onClick={logout}>
-            Logout
-          </Button>
+          <IconButton color="inherit" onClick={logout} aria-label="logout">
+            <LogoutIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
@@ -27,9 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
     },
     title: {
       flexGrow: 1,

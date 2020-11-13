@@ -11,17 +11,17 @@ import {
   Theme,
   Link,
 } from '@material-ui/core';
+import { GitHub as GitHubIcon } from '@material-ui/icons';
+import { User } from '../types/auth';
 
 type Props = {
-  name: string;
-  login: string;
-  avatar_url: string;
-  bio: string;
-  url: string;
+  user: User;
 };
 
-export const ProfileCard = ({ name, login, avatar_url, bio, url }: Props) => {
+export const ProfileCard = ({ user }: Props) => {
   const classes = useStyles();
+
+  const { name, login, avatar_url, bio, url } = user;
 
   const firstName = name.split(' ')[0];
   const lastName = name.split(' ')[1];
@@ -42,9 +42,12 @@ export const ProfileCard = ({ name, login, avatar_url, bio, url }: Props) => {
         <Typography variant="body2" color="textSecondary" component="p">
           {bio}
         </Typography>
-        <Typography variant="body2">
-          <Link href={url}>Github Profile</Link>
-        </Typography>
+        <div className={classes.link}>
+          <GitHubIcon />
+          <Typography variant="body2">
+            <Link href={url}>Github Profile</Link>
+          </Typography>
+        </div>
       </CardContent>
     </Card>
   );
@@ -62,6 +65,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     avatar: {
       background: theme.palette.secondary.light,
+    },
+    link: {
+      display: 'flex',
+      alignItems: 'center',
+      marginTop: theme.spacing(2),
+      gap: `${theme.spacing(1)}px`,
     },
   })
 );
