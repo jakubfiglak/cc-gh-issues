@@ -1,22 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { Login } from './pages/Login';
-import { AuthState } from './context/auth/AuthState';
+import { AuthenticatedApp } from './AuthenticatedApp';
+import { UnauthenticatedApp } from './UnauthenticatedApp';
+import { useAuthState } from './hooks/useAuthState';
 
-function App() {
+const App = () => {
+  const { isAuthenticated } = useAuthState();
+
   return (
     <div className="App">
-      <AuthState>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-          </Switch>
-        </Router>
-      </AuthState>
+      {isAuthenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />}
     </div>
   );
-}
+};
 
 export default App;

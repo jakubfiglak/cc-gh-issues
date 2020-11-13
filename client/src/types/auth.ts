@@ -15,7 +15,6 @@ export type State = {
   token: string | null;
   loading: boolean;
   error: string | null;
-  loadUser: () => void;
   authenticate: (code: string) => void;
   setLoading: () => void;
   clearErrors: () => void;
@@ -23,8 +22,7 @@ export type State = {
 };
 
 export type Action =
-  | { type: 'USER_LOADED'; payload: User }
-  | { type: 'AUTH_SUCCESS'; payload: string }
+  | { type: 'AUTH_SUCCESS'; payload: { token: string; user: User } }
   | { type: 'AUTH_ERROR'; payload: string }
   | { type: 'CLEAR_ERRORS' }
   | { type: 'SET_LOADING' }

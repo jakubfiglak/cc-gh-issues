@@ -1,27 +1,22 @@
-import { State, Action } from './types';
+import { State, Action } from '../../types/auth';
 
 const authReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'USER_LOADED':
-      return {
-        ...state,
-        isAuthenticated: true,
-        loading: false,
-        user: action.payload,
-      };
-
     case 'AUTH_SUCCESS':
-      localStorage.setItem('token', action.payload);
+      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('user', JSON.stringify(action.payload.user));
+      localStorage.setItem('isAuthenticated', JSON.stringify(true));
       return {
         ...state,
-        token: action.payload,
+        token: action.payload.token,
+        user: action.payload.user,
         isAuthenticated: true,
         loading: false,
         error: null,
       };
 
     case 'AUTH_ERROR':
-      localStorage.removeItem('token');
+      localStorage.clear();
       return {
         ...state,
         user: null,
@@ -32,7 +27,7 @@ const authReducer = (state: State, action: Action): State => {
       };
 
     case 'LOGOUT':
-      localStorage.removeItem('token');
+      localStorage.clear();
       return {
         ...state,
         user: null,

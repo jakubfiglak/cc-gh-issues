@@ -1,8 +1,9 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { axiosJson } from '../config/axios';
-import { useAuthState } from '../context/auth/useAuthState';
-import { Repo } from '../types';
+import { useAuthState } from '../hooks/useAuthState';
+import { useRepos } from '../hooks/useRepos';
+import { Repo } from '../types/repos';
 
 const getRepos = async (_: string, url: string) => {
   const res = await axiosJson.get(url);
@@ -14,10 +15,7 @@ export const Repos = () => {
 
   const url = user?.repos_url;
 
-  const { isLoading, error, data } = useQuery<Repo[]>(
-    ['repoData', url],
-    getRepos
-  );
+  const { isLoading, error, data } = useRepos(url!);
 
   if (isLoading) {
     return <div>Repos loading...</div>;
@@ -29,11 +27,7 @@ export const Repos = () => {
 
   return (
     <div>
-      <ul>
-        {data?.map((repo) => (
-          <ul key={repo.id}>{repo.name}</ul>
-        ))}
-      </ul>
+      <ul>{data && data.map((repo) => <ul key={repo.id}>{repo.name}</ul>)}</ul>
     </div>
   );
 };

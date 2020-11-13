@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import {
   Typography,
   Button,
@@ -7,23 +8,27 @@ import {
   Theme,
 } from '@material-ui/core';
 import { GitHub as GitHubIcon } from '@material-ui/icons';
-import { useHistory } from 'react-router';
-import { useAuthState } from '../context/auth/useAuthState';
+import { useAuthState } from '../hooks/useAuthState';
 
 const githubURI =
   'https://github.com/login/oauth/authorize?client_id=560ee4521b0387f7017e';
 
 export const Login = () => {
   const classes = useStyles();
+
+  const { authenticate, loading, user } = useAuthState();
+
   const history = useHistory();
-  const { isAuthenticated } = useAuthState();
+  const location = useLocation();
+  const code = location.search.split('?code=')[1];
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (code) {
+      authenticate(code);
       history.push('/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
+  }, [code]);
 
   return (
     <main className={classes.container}>
