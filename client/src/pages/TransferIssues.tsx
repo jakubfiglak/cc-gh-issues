@@ -11,9 +11,10 @@ import {
 import { QueryStatus } from 'react-query';
 import { RepoSelect } from '../components/RepoSelect';
 import { Loader } from '../components/Loader';
-import { useAuthState } from '../hooks/useAuthState';
+import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 import { useRepos } from '../hooks/useRepos';
 import { TransferIssuesFormData } from '../types/transferIssues';
+import { transferIssues } from '../utils/transferIssues';
 
 const initialValues: TransferIssuesFormData = {
   fromRepo: '',
@@ -29,9 +30,9 @@ const validationSchema: yup.ObjectSchema<TransferIssuesFormData> = yup
 
 export const TransferIssues = () => {
   const classes = useStyles();
-  const { user } = useAuthState();
+  const user = useAuthenticatedUser();
 
-  const { data, status } = useRepos(user?.repos_url!);
+  const { data, status } = useRepos(user.repos_url);
   const { Loading, Error } = QueryStatus;
 
   if (status === Loading) {
@@ -51,21 +52,29 @@ export const TransferIssues = () => {
       <Typography variant="h5" align="center">
         Transfer issues
       </Typography>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values) => console.log(values)}
-      >
-        {({ handleSubmit }) => (
-          <Form className={classes.container} onSubmit={handleSubmit}>
-            <RepoSelect name="fromRepo" label="Base repo" repos={data!} />
-            <RepoSelect name="toRepo" label="Target repo" repos={data!} />
-            <Button type="submit" fullWidth variant="contained" color="primary">
-              Transfer Issues
-            </Button>
-          </Form>
-        )}
-      </Formik>
+      {data && (
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={(values) => transferIssues(values)}
+        >
+          {({ handleSubmit, isSubmitting }) => (
+            <Form className={classes.container} onSubmit={handleSubmit}>
+              <RepoSelect name="fromRepo" label="Base repo" repos={data} />
+              <RepoSelect name="toRepo" label="Target repo" repos={data} />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                disabled={isSubmitting}
+              >
+                Transfer Issues
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      )}
     </>
   );
 };

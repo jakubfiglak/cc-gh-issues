@@ -4,13 +4,13 @@ import { QueryStatus } from 'react-query';
 import { Loader } from '../components/Loader';
 import { RepoCard } from '../components/RepoCard';
 import { useRepos } from '../hooks/useRepos';
-import { useAuthState } from '../hooks/useAuthState';
+import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 
 export const Repos = () => {
   const classes = useStyles();
-  const { user } = useAuthState();
+  const user = useAuthenticatedUser();
 
-  const { data, status } = useRepos(user?.repos_url!);
+  const { data, status } = useRepos(user.repos_url);
   const { Loading, Error } = QueryStatus;
 
   if (status === Loading) {

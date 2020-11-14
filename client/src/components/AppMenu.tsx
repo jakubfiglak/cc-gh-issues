@@ -45,6 +45,7 @@ export const AppMenu = () => {
       >
         <MenuItem onClick={handleClose}>
           <NavLink
+            exact
             to="/"
             className={classes.link}
             activeClassName={classes.isActive}
@@ -88,7 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
     },
     isActive: {
-      background: theme.palette.grey[300],
+      fontWeight: 'bold',
     },
   })
 );

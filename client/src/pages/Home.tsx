@@ -1,17 +1,17 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import { ProfileCard } from '../components/ProfileCard';
-import { useAuthState } from '../hooks/useAuthState';
+import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 
 export const Home = () => {
-  const { user } = useAuthState();
+  const user = useAuthenticatedUser();
 
   return (
     <>
       <Typography variant="h5" align="center">
-        Welcome {user?.name}
+        Welcome {user.name}
       </Typography>
-      <ProfileCard user={user!} />
+      <ProfileCard user={user} />
     </>
   );
 };

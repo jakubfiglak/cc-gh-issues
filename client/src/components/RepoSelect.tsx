@@ -34,7 +34,10 @@ export const RepoSelect = ({ name, label, repos }: Props) => {
           <em>None</em>
         </MenuItem>
         {repos.map((repo) => (
-          <MenuItem key={repo.id} value={repo.id}>
+          <MenuItem
+            key={repo.id}
+            value={repo.issues_url.replace('{/number}', '')}
+          >
             {repo.name}
           </MenuItem>
         ))}
