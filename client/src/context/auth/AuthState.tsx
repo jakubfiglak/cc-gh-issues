@@ -39,8 +39,6 @@ export const AuthState: FC = ({ children }) => {
         type: 'AUTH_SUCCESS',
         payload: { token: authResponse.data.token, user: userResponse.data },
       });
-
-      // loadUser();
     } catch (err) {
       dispatch({
         type: 'AUTH_ERROR',
