@@ -11,8 +11,6 @@ export const errorHandler: ErrorRequestHandler = (
 
   error.message = err.message;
 
-  console.log(error);
-
   res.status(error.statusCode || 500).json({
     success: false,
     error: error.message || 'Server Error',
