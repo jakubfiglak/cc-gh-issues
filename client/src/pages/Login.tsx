@@ -10,8 +10,7 @@ import {
 import { GitHub as GitHubIcon } from '@material-ui/icons';
 import { useAuthState } from '../hooks/useAuthState';
 
-const githubURI =
-  'https://github.com/login/oauth/authorize?client_id=560ee4521b0387f7017e&scope=user%20public_repo';
+const githubURI = `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&scope=user%20public_repo`;
 
 export const Login = () => {
   const classes = useStyles();
