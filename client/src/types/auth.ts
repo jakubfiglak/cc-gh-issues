@@ -1,4 +1,4 @@
-export type User = {
+export interface User {
   id: string;
   login: string;
   name: string;
@@ -12,9 +12,9 @@ export type User = {
   public_repos: number;
   total_private_repos: number;
   owned_private_repos: number;
-};
+}
 
-export type State = {
+export interface State {
   user: User | null;
   isAuthenticated: boolean;
   token: string | null;
@@ -24,7 +24,7 @@ export type State = {
   setLoading: () => void;
   clearErrors: () => void;
   logout: () => void;
-};
+}
 
 export type Action =
   | { type: 'AUTH_SUCCESS'; payload: { token: string; user: User } }

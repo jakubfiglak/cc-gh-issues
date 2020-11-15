@@ -9,11 +9,11 @@ import {
 } from '@material-ui/core';
 import { Repo } from '../types/repos';
 
-type Props = {
+interface Props {
   name: string;
   label: string;
   repos: Repo[];
-};
+}
 
 export const RepoSelect = ({ name, label, repos }: Props) => {
   const [field, meta] = useField(name);

@@ -15,17 +15,16 @@ import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 import { useRepos } from '../hooks/useRepos';
 import { useAlertsState } from '../hooks/useAlertsState';
 import { TransferIssuesFormData } from '../types/transferIssues';
-import { transferIssues } from '../utils/transferIssues';
 
 const initialValues: TransferIssuesFormData = {
-  fromRepo: '',
-  toRepo: '',
+  baseRepoURL: '',
+  targetRepoURL: '',
 };
 
 const validationSchema: yup.ObjectSchema<TransferIssuesFormData> = yup
   .object({
-    fromRepo: yup.string().required('Please select a base repo'),
-    toRepo: yup
+    baseRepoURL: yup.string().required('Please select a base repo'),
+    targetRepoURL: yup
       .string()
       .notOneOf(
         [yup.ref('fromRepo')],
@@ -64,12 +63,16 @@ export const TransferIssues = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values) => transferIssues(values)}
+          onSubmit={(values) => console.log(values)}
         >
           {({ handleSubmit, isSubmitting }) => (
             <Form className={classes.container} onSubmit={handleSubmit}>
-              <RepoSelect name="fromRepo" label="Base repo" repos={data} />
-              <RepoSelect name="toRepo" label="Target repo" repos={data} />
+              <RepoSelect name="baseRepoURL" label="Base repo" repos={data} />
+              <RepoSelect
+                name="targetRepoURL"
+                label="Target repo"
+                repos={data}
+              />
               <Button
                 type="submit"
                 fullWidth

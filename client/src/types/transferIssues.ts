@@ -1,4 +1,4 @@
-export type TransferIssuesFormData = {
-  fromRepo: string;
-  toRepo: string;
-};
+export interface TransferIssuesFormData {
+  baseRepoURL: string;
+  targetRepoURL: string;
+}

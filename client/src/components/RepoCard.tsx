@@ -12,14 +12,14 @@ import {
 import { GitHub as GitHubIcon } from '@material-ui/icons';
 import { Repo } from '../types/repos';
 
-type Props = {
+interface Props {
   repo: Repo;
-};
+}
 
 export const RepoCard = ({ repo }: Props) => {
   const classes = useStyles();
 
-  const { name, description, url } = repo;
+  const { name, description, html_url } = repo;
 
   return (
     <Card className={classes.root}>
@@ -31,7 +31,9 @@ export const RepoCard = ({ repo }: Props) => {
         <div className={classes.link}>
           <GitHubIcon />
           <Typography variant="body2">
-            <Link href={url}>See the repo</Link>
+            <Link href={html_url} target="_blank" rel="noopener noreferrer">
+              See the repo
+            </Link>
           </Typography>
         </div>
       </CardContent>

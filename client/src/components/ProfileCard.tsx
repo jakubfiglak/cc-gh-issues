@@ -14,14 +14,14 @@ import {
 import { GitHub as GitHubIcon } from '@material-ui/icons';
 import { User } from '../types/auth';
 
-type Props = {
+interface Props {
   user: User;
-};
+}
 
 export const ProfileCard = ({ user }: Props) => {
   const classes = useStyles();
 
-  const { name, login, avatar_url, bio, url } = user;
+  const { name, login, avatar_url, bio, html_url } = user;
 
   const firstName = name.split(' ')[0];
   const lastName = name.split(' ')[1];
@@ -45,7 +45,9 @@ export const ProfileCard = ({ user }: Props) => {
         <div className={classes.link}>
           <GitHubIcon />
           <Typography variant="body2">
-            <Link href={url}>Github Profile</Link>
+            <Link href={html_url} target="_blank" rel="noopener noreferrer">
+              Github Profile
+            </Link>
           </Typography>
         </div>
       </CardContent>
