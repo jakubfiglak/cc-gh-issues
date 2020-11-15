@@ -13,6 +13,7 @@ import { RepoSelect } from '../components/RepoSelect';
 import { Loader } from '../components/Loader';
 import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 import { useRepos } from '../hooks/useRepos';
+import { useAlertsState } from '../hooks/useAlertsState';
 import { TransferIssuesFormData } from '../types/transferIssues';
 import { transferIssues } from '../utils/transferIssues';
 
@@ -24,13 +25,20 @@ const initialValues: TransferIssuesFormData = {
 const validationSchema: yup.ObjectSchema<TransferIssuesFormData> = yup
   .object({
     fromRepo: yup.string().required('Please select a base repo'),
-    toRepo: yup.string().required('Please select a target repo'),
+    toRepo: yup
+      .string()
+      .notOneOf(
+        [yup.ref('fromRepo')],
+        'Cannot transfer issues to the same repo, please select another repo'
+      )
+      .required('Please select a target repo'),
   })
   .defined();
 
 export const TransferIssues = () => {
   const classes = useStyles();
   const user = useAuthenticatedUser();
+  const { setAlert } = useAlertsState();
 
   const { data, status } = useRepos(user.repos_url);
   const { Loading, Error } = QueryStatus;
