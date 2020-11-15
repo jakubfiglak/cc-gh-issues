@@ -13,7 +13,7 @@ import { RepoSelect } from '../components/RepoSelect';
 import { Loader } from '../components/Loader';
 import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 import { useRepos } from '../hooks/useRepos';
-import { useAlertsState } from '../hooks/useAlertsState';
+import { useTransferIssues } from '../hooks/useTransferIssues';
 import { TransferIssuesFormData } from '../types/transferIssues';
 
 const initialValues: TransferIssuesFormData = {
@@ -27,7 +27,7 @@ const validationSchema: yup.ObjectSchema<TransferIssuesFormData> = yup
     targetRepoURL: yup
       .string()
       .notOneOf(
-        [yup.ref('fromRepo')],
+        [yup.ref('baseRepoURL')],
         'Cannot transfer issues to the same repo, please select another repo'
       )
       .required('Please select a target repo'),
@@ -37,9 +37,9 @@ const validationSchema: yup.ObjectSchema<TransferIssuesFormData> = yup
 export const TransferIssues = () => {
   const classes = useStyles();
   const user = useAuthenticatedUser();
-  const { setAlert } = useAlertsState();
 
   const { data, status } = useRepos(user.repos_url);
+  const [transferIssues] = useTransferIssues();
   const { Loading, Error } = QueryStatus;
 
   if (status === Loading) {
@@ -63,9 +63,9 @@ export const TransferIssues = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={(values) => transferIssues(values)}
         >
-          {({ handleSubmit, isSubmitting }) => (
+          {({ handleSubmit, isSubmitting, resetForm }) => (
             <Form className={classes.container} onSubmit={handleSubmit}>
               <RepoSelect name="baseRepoURL" label="Base repo" repos={data} />
               <RepoSelect
