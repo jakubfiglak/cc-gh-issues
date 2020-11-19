@@ -1,12 +1,27 @@
-import express, { Request, Response, NextFunction } from 'express';
-import { json } from 'body-parser';
+import express from 'express';
+import dotenv from 'dotenv';
+import path from 'path';
+import githubRoutes from './routes/github';
+import { errorHandler } from './middleware/error';
+
+dotenv.config();
 
 const app = express();
 
-app.use(json());
+app.use(express.json());
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({ message: err.message });
-});
+app.use('/github', githubRoutes);
 
-app.listen(5000);
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  );
+}
+
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
