@@ -10,7 +10,7 @@ export const Repos = () => {
   const classes = useStyles();
   const user = useAuthenticatedUser();
 
-  const { data, status } = useRepos(user.repos_url);
+  const { data, status } = useRepos(user.repos_url, user.public_repos);
   const { Loading, Error } = QueryStatus;
 
   if (status === Loading) {
