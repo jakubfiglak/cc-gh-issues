@@ -38,7 +38,7 @@ export const TransferIssues = () => {
   const classes = useStyles();
   const user = useAuthenticatedUser();
 
-  const { data, status } = useRepos(user.repos_url);
+  const { data, status } = useRepos(user.repos_url, user.public_repos);
   const [transferIssues] = useTransferIssues();
   const { Loading, Error } = QueryStatus;
 

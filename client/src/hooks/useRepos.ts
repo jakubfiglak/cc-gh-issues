@@ -2,9 +2,18 @@ import { useQuery } from 'react-query';
 import { axiosJson } from '../config/axios';
 import { Repo } from '../types/repos';
 
-export const useRepos = (url: string) => {
+interface Response {
+  success: boolean;
+  message: string;
+  data: Repo[];
+  count: number;
+}
+
+export const useRepos = (url: string, count: number) => {
   return useQuery<Repo[]>('repos', async () => {
-    const res = await axiosJson.get(url);
-    return res.data;
+    const res = await axiosJson.get<Response>(
+      `/github/repos?reposURL=${url}&reposCount=${count}`
+    );
+    return res.data.data;
   });
 };
